@@ -1,0 +1,5 @@
+.env
+node_modules/
+libretranslate-env/
+.vscode/
+test-results/
