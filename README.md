@@ -2,7 +2,7 @@
 
 I tested a multilingual translation API to investigate how consistently it responds to identical requests across English, Spanish, and French.
 
-The project began with exploratory API testing in Postman and expanded into an automated experiment using Playwright and TypeScript. I sent 400 translation requests, collected the responses as structured data, and analyzed output variation and API latency with Pandas and Matplotlib.
+The project began with exploratory API testing in Postman and expanded into an automated experiment using Playwright and TypeScript. I sent 400 translation requests (100 per language pair), collected the responses as structured data, and analyzed output variation and API latency with Pandas and Matplotlib.
 
 ## Experiment Design
 
@@ -20,7 +20,7 @@ The project began with exploratory API testing in Postman and expanded into an a
 
 8 of 40 translation scenarios (20%) produced more than one unique translation across 10 identical requests.
 
-[INSERT TRANSLATION VARIATION CHART]
+<img width="1887" height="1408" alt="image" src="https://github.com/user-attachments/assets/807f7922-e771-44cc-9b02-20a374384819" />
 
 EN → ES was stable across all 10 tested inputs, while variation appeared in the other three language directions.
 
@@ -30,13 +30,13 @@ Observed differences ranged from harmless wording changes to changes affecting t
 
 Examples included:
 
-- Stylistic variation: equivalent ways of expressing a time
-- Register variation: formal vs. informal French
-- Orthographic variation: `María` → `Maria`
+- Stylistic variation: equivalent ways of expressing a time, i.e., 7:30 PM / 7:30 in the evening
+- Register variation: formal vs. informal French, in this case *Peux-tu m'aider avec ce problème* vs. *Pouvez-vous m'aider avec ce problème*
+- Orthographic variation: `María` → `Maria` (in the first case, the "í" carries a diacritic; in the second, it does not)
 - Semantic variation: `12.5 kilograms` → `27.5 pounds`
-- Functional failure: a valid translation request returned an unsupported-language message instead of a translation
+- Functional failure: a valid translation request returned an unsupported-language message instead of a translation (a QA question!)
 
-This demonstrates why exact-string assertions can be brittle when testing nondeterministic language systems—and why simply accepting any variation can be equally dangerous.
+This demonstrates why exact-string assertions can be brittle when testing nondeterministic language systems, and why simply accepting any variation can be equally dangerous.
 
 ### 3. HTTP success did not guarantee translation success
 
@@ -46,7 +46,7 @@ However, successful HTTP responses did not necessarily mean the translation itse
 
 ### 4. Typical latency was similar across language pairs
 
-[INSERT LATENCY BOXPLOT]
+<img width="1000" height="800" alt="image" src="https://github.com/user-attachments/assets/a5dd087b-3a87-489a-a293-db87ad054748" />
 
 Median response times were similar across the four tested language directions, although all four showed occasional latency spikes.
 
@@ -59,7 +59,7 @@ Useful validation strategies include:
 - validating semantic meaning rather than only exact wording
 - checking preservation of names, numbers, units, and other critical information
 - accounting for multiple valid outputs
-- separating harmless linguistic variation from meaning-changing failures
+- separating harmless linguistic variation from failures that corrupt meaning
 - repeating identical requests to expose nondeterministic behavior
 
 ## Tools
